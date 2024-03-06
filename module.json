@@ -1,6 +1,6 @@
 {
     "name"         : "RFM2Pi",
-    "version"      : "1.4.1",
+    "version"      : "1.4.2",
     "location"     : "/opt/openenergymonitor",
     "branches_available": ["stable","master"],
     "requires": []

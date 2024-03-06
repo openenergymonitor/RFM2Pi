@@ -110,22 +110,28 @@ If you want to read the data from the ATmega328 (e.g to make a backup) that can 
 
 Alternatively, you could flash the modified Optiboot bootloader, then upload the RF12_Demo_atmega328.cpp.hex to RFM69Pi direct from the Pi. See below for instructions on how to modify the OptiBoot bootloader, and above, for instructions on how to upload direct from the Pi once the bootloader is in place. 
 
+A final alternative is to create a board
 
 ##  Modified OptiBoot Bootloader
 
-The ATmega328 gets its clock from the the internal 8Mhz oscillator. This requires a special version of Optiboot optimised for 38.4 kbps. The modified and compiled version can be obtained at: [ from Martin's github](https://github.com/mharizanov/RFM2Pi/tree/master/firmware/RF12_Demo_atmega328).
+The ATmega328 gets its clock from the the internal 8Mhz oscillator. This requires a special version of Optiboot optimised for 38.4 kbps. The modified and compiled version can be obtained at: [ from Martin's github](https://github.com/mharizanov/RFM2Pi/tree/master/firmware/RF12_Demo_atmega328). The firmware for RFM69Pi also includes the modified Optiboot bootloader, so you can burn the unit with this to begin with. It is available from Martin's github site and [in this repository under Firmware](https://github.com/openenergymonitor/RFM2Pi/tree/master/firmware/RFM69CW_RF_Demo_ATmega328) as mentioned above. The bootloader should be placed in arduino-arduino-1.x.x\hardware\arduino\bootloaders or ...\arduino\hardware\avr\1.x.x\bootloaders for some operatings systems.
 
 The full guide on how to modify and re-compile Optboot is detailed on the Arduino forum [here](http://arduino.cc/forum/index.php?topic=124879.0).
 
-In order to compile Arduino sketches to work for this modified bootloader, we need to add a new entry in arduino-1.0.2\hardware\arduino\boards.txt.
+In order to compile Arduino sketches to work for this modified bootloader, we need to add a new entry in arduino-1.x.x\hardware\arduino\boards.txt or ...\arduino\hardware\avr\1.x.x\boards.txt for some operatings systems. If you will also burn the bootloader from Arduino IDE, the mega328_384_8.bootloader.file setting should match the filename of the bootloader you placed in the bootloaders directory.
 
 ```
 atmega328_384_8.name=ATmega328 Optiboot @ 38,400baud w/ 8MHz Int. RC Osc.
 
+atmega328_384_8.upload.tool=avrdude
+atmega328_384_8.upload.tool.default=avrdude
+atmega328_384_8.upload.tool.network=arduino_ota
 atmega328_384_8.upload.protocol=arduino
 atmega328_384_8.upload.maximum_size=30720
 atmega328_384_8.upload.speed=38400
 
+atmega328_384_8.bootloader.tool=avrdude
+atmega328_384_8.bootloader.tool.default=avrdude
 atmega328_384_8.bootloader.low_fuses=0xE2
 atmega328_384_8.bootloader.high_fuses=0xDE
 atmega328_384_8.bootloader.extended_fuses=0x05
@@ -138,6 +144,7 @@ atmega328_384_8.build.mcu=atmega328p
 atmega328_384_8.build.f_cpu=8000000L
 atmega328_384_8.build.core=arduino
 atmega328_384_8.build.variant=standard
+atmega328_384_8.build.board=AVR_UNO
 ```
 
 Now we need to select: Board > ATmega328 Optiboot at 38,400 bps with 8MHz Internal RC Osc in the Arduino IDE when compiling sketches.
