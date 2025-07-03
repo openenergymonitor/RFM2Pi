@@ -4,6 +4,19 @@
 
 RFM69Pi firmware supporting via `#define` before compilation either LowPowerLabs radio format or JeeLib native radio format.
 
+## EmonHub Interfacer
+
+```
+    [[RFM69PI]]
+        Type = EmonHubOEMInterfacer
+        [[[init_settings]]]
+            com_port = /dev/ttyAMA0
+            com_baud = 38400
+        [[[runtimesettings]]]
+            pubchannels = ToEmonCMS,
+            subchannels = ToRFM12,
+```
+
 ## Description
 
 This sketch runs on the Atmel ATMega328P, handling the radio traffic coming in from sensor nodes.
